@@ -1,32 +1,53 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { NotImplementedError } = require("../extensions/index.js");
 
 /**
  * Implement chainMaker object according to task description
- * 
+ *
  */
 const chainMaker = {
+  resChain: [],
   getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.resChain.length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink(value) {
+    if (
+      value ||
+      value === null ||
+      isNaN(value) ||
+      value === 0 ||
+      value === false
+    ) {
+      this.resChain.push(`( ${value} )`);
+    } else {
+      this.resChain.push("( )");
+    }
+    return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink(position) {
+    if (
+      typeof position == "number" &&
+      Number.isInteger(position) &&
+      this.resChain.length >= position &&
+      position > 0
+    ) {
+      this.resChain.splice(position - 1, 1);
+    } else {
+      this.resChain = [];
+      throw new Error("You can't remove incorrect link!");
+    }
+    return this;
   },
   reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    this.resChain.reverse();
+    return this;
   },
   finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    let simpleChain = this.resChain.join("~~");
+    this.resChain = [];
+    return simpleChain;
+  },
 };
 
 module.exports = {
-  chainMaker
+  chainMaker,
 };
